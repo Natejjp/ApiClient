@@ -2,28 +2,48 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using ConsoleTables;
+
 namespace ApiClient
 {
     class brewery
     {
-        public int id { get; set; }
-        public string name { get; set; }
-        public string brewery_type { get; set; }
-        public string street { get; set; }
-        public string address_2 { get; set; }
-        public string address_3 { get; set; }
-        public string city { get; set; }
-        public string county_province { get; set; }
-        public string state { get; set; }
-        public string postal_code { get; set; }
-        public string country { get; set; }
-        public string longitude { get; set; }
-        public string latitude { get; set; }
-        public string phone { get; set; }
-        public string website_url { get; set; }
-        public DateTime updated_at { get; set; }
-        public DateTime create_at { get; set; }
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
+        [JsonPropertyName("name")]
+        public string Name { get; set; }
+        [JsonPropertyName("brewery_type")]
+        public string BreweryType { get; set; }
+        [JsonPropertyName("street")]
+        public string Street { get; set; }
+        [JsonPropertyName("address_2")]
+        public string Address2 { get; set; }
+        [JsonPropertyName("address_3")]
+        public string Address3 { get; set; }
+        [JsonPropertyName("city")]
+        public string City { get; set; }
+        [JsonPropertyName("county_province")]
+        public string CountyProvince { get; set; }
+        [JsonPropertyName("state")]
+        public string State { get; set; }
+        [JsonPropertyName("postal_code")]
+        public string PostalCode { get; set; }
+        [JsonPropertyName("country")]
+        public string Country { get; set; }
+        [JsonPropertyName("longitude")]
+        public string Longitude { get; set; }
+        [JsonPropertyName("latitude")]
+        public string Latitude { get; set; }
+        [JsonPropertyName("phone")]
+        public string Phone { get; set; }
+        [JsonPropertyName("website_url")]
+        public string WebsiteUrl { get; set; }
+        [JsonPropertyName("updated_at")]
+        public DateTime UpdatedAt { get; set; }
+        [JsonPropertyName("create_at")]
+        public DateTime CreateAt { get; set; }
 
     }
     class Program
@@ -37,10 +57,15 @@ namespace ApiClient
             );
             var breweries = await JsonSerializer.DeserializeAsync<List<brewery>>(responseAsStream);
 
+            var table = new ConsoleTable("Brewery", "City", "Phone");
+
             foreach (var brewery in breweries)
             {
-                Console.WriteLine($"The brewery {brewery.name} is located in {brewery.city}!");
+                table.AddRow(brewery.Name, brewery.City, brewery.Phone);
             }
+
+            table.Write();
+
         }
     }
 }
